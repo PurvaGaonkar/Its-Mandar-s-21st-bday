@@ -1,0 +1,1883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>21st Edition — For Mandar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-cobalt-deep: #04132c;
+      --bg-cobalt-mid: #0a2a5e;
+      --bg-card: rgba(9, 34, 77, 0.82);
+      --bg-inner: rgba(14, 48, 102, 0.72);
+      --ink-pearl: #f0f7ff;
+      --ink-mist: #a6c8eb;
+      --glow-cyan: #7ec8ff;
+      --swan-white: #ffffff;
+      --blush-pink: #f4b8c8;
+      --border-mist: rgba(166, 200, 235, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      min-height: 100dvh;
+      background-color: var(--bg-cobalt-deep);
+      background-image: 
+        radial-gradient(circle at 50% 15%, rgba(126, 200, 255, 0.32) 0%, transparent 55%),
+        radial-gradient(circle at 20% 80%, rgba(28, 93, 179, 0.5) 0%, transparent 50%),
+        linear-gradient(180deg, #07224d 0%, #0b397a 45%, #04142e 100%);
+      color: var(--ink-pearl);
+      font-family: 'Montserrat', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: clamp(12px, 3vw, 24px);
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Live Ambient Starlight, Shooting Stars & Touch Stardust */
+    #ambient-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .floating-stickers {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .sticker {
+      position: absolute;
+      opacity: 0.82;
+      filter: drop-shadow(0 6px 14px rgba(2, 10, 26, 0.65));
+      animation: floatGentle 6.5s ease-in-out infinite alternate;
+      user-select: none;
+    }
+
+    .sticker.spin-slow {
+      animation: floatAndSpin 14s linear infinite;
+    }
+
+    @keyframes floatGentle {
+      0% { transform: translateY(0px) rotate(-5deg) scale(1); }
+      100% { transform: translateY(-16px) rotate(6deg) scale(1.06); }
+    }
+
+    @keyframes floatAndSpin {
+      0% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-12px) rotate(180deg); }
+      100% { transform: translateY(0px) rotate(360deg); }
+    }
+
+    #confetti-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 300;
+    }
+
+    /* Main Responsive Stage Container with Gentle Breathing Aura */
+    .stage-container {
+      max-width: 620px;
+      width: 100%;
+      background: var(--bg-card);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border-mist);
+      padding: clamp(20px, 4vw, 42px) clamp(14px, 3.5vw, 34px);
+      box-shadow: 0 24px 60px rgba(2, 10, 26, 0.8), 0 0 45px rgba(126, 200, 255, 0.16);
+      position: relative;
+      z-index: 2;
+      border-radius: 10px;
+      margin: auto;
+      animation: containerBreathe 6s ease-in-out infinite alternate;
+    }
+
+    @keyframes containerBreathe {
+      0% { box-shadow: 0 24px 60px rgba(2, 10, 26, 0.8), 0 0 32px rgba(126, 200, 255, 0.14); }
+      100% { box-shadow: 0 26px 65px rgba(2, 10, 26, 0.85), 0 0 52px rgba(126, 200, 255, 0.28); }
+    }
+
+    .scrapbook-inner {
+      border: 1px dashed rgba(166, 200, 235, 0.42);
+      padding: clamp(18px, 3.5vw, 30px) clamp(12px, 3vw, 24px);
+      position: relative;
+      border-radius: 6px;
+    }
+
+    .meta-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: clamp(0.62rem, 2vw, 0.7rem);
+      text-transform: uppercase;
+      letter-spacing: 1.8px;
+      color: var(--glow-cyan);
+      border-bottom: 1px solid rgba(166, 200, 235, 0.25);
+      padding-bottom: 10px;
+      margin-bottom: 22px;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+      text-align: center;
+      color: var(--swan-white);
+      text-shadow: 0 0 18px rgba(126, 200, 255, 0.45);
+    }
+
+    h2 {
+      font-size: clamp(1.55rem, 5vw, 2.05rem);
+    }
+
+    /* Shimmering Headline for Step 4 */
+    .shimmer-title {
+      background: linear-gradient(90deg, #ffffff 0%, #9fd3ff 35%, #f4b8c8 50%, #9fd3ff 65%, #ffffff 100%);
+      background-size: 220% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: titleShimmer 5s linear infinite;
+    }
+
+    @keyframes titleShimmer {
+      0% { background-position: 0% center; }
+      100% { background-position: 220% center; }
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: clamp(0.88rem, 2.8vw, 0.98rem);
+      color: var(--ink-mist);
+      margin-top: 6px;
+      margin-bottom: 22px;
+      line-height: 1.5;
+      font-style: italic;
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    /* Interactive Kitty Mascot Widget */
+    .kitty-mascot {
+      width: 78px;
+      height: 78px;
+      margin: 0 auto 12px;
+      cursor: pointer;
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      animation: kittyBob 3.2s ease-in-out infinite alternate;
+    }
+
+    @keyframes kittyBob {
+      0% { transform: translateY(0px) rotate(-2deg); }
+      100% { transform: translateY(-5px) rotate(2deg); }
+    }
+
+    .kitty-mascot:hover, .kitty-mascot:active {
+      transform: scale(1.14) rotate(-5deg);
+    }
+
+    .kitty-speech {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.88rem;
+      color: var(--blush-pink);
+      text-align: center;
+      min-height: 20px;
+      margin-bottom: 10px;
+      transition: opacity 0.3s ease;
+    }
+
+    /* Step Transitions */
+    .step {
+      display: none;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.45s ease, transform 0.45s ease;
+    }
+
+    .step.active {
+      display: block;
+    }
+
+    .step.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Responsive Buttons with Shimmer */
+    .btn {
+      background: transparent;
+      border: 1px solid var(--glow-cyan);
+      color: var(--swan-white);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 400;
+      font-size: clamp(0.74rem, 2.4vw, 0.82rem);
+      padding: 12px 22px;
+      cursor: pointer;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      transition: all 0.25s ease;
+      display: inline-block;
+      border-radius: 4px;
+      min-height: 44px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn:hover, .btn:active {
+      background: rgba(126, 200, 255, 0.2);
+      box-shadow: 0 0 18px rgba(126, 200, 255, 0.4);
+    }
+
+    .btn-accent {
+      background: linear-gradient(135deg, #ffffff, #a6d8ff);
+      border-color: #ffffff;
+      color: #051838;
+      font-weight: 500;
+      box-shadow: 0 0 20px rgba(126, 200, 255, 0.45);
+    }
+
+    .btn-accent:hover, .btn-accent:active {
+      background: #ffffff;
+      transform: translateY(-2px);
+      box-shadow: 0 0 26px rgba(255, 255, 255, 0.75);
+    }
+
+    /* --- STEP 1: PASSCODE GATE --- */
+    .passcode-box {
+      text-align: center;
+      max-width: 320px;
+      margin: 0 auto;
+    }
+
+    .code-input {
+      width: 100%;
+      padding: 13px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 400;
+      font-size: 1.1rem;
+      text-align: center;
+      letter-spacing: 5px;
+      background: rgba(4, 19, 44, 0.8);
+      border: 1px solid var(--border-mist);
+      color: var(--swan-white);
+      outline: none;
+      margin-bottom: 12px;
+      border-radius: 4px;
+    }
+
+    .code-input:focus {
+      border-color: var(--glow-cyan);
+      box-shadow: 0 0 15px rgba(126, 200, 255, 0.4);
+    }
+
+    .error-msg {
+      color: #9fd3ff;
+      font-size: 0.85rem;
+      min-height: 22px;
+      margin-bottom: 14px;
+      font-style: italic;
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    /* --- STEP 2: 5 LIGHTHEARTED QUESTIONS --- */
+    .question-box {
+      text-align: center;
+      padding: 6px 0;
+    }
+
+    .q-counter {
+      font-size: 0.72rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--glow-cyan);
+      margin-bottom: 10px;
+    }
+
+    .q-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.3rem, 4.2vw, 1.52rem);
+      line-height: 1.4;
+      margin-bottom: 24px;
+      min-height: 70px;
+      color: var(--swan-white);
+    }
+
+    .yn-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      position: relative;
+      min-height: 48px;
+      flex-wrap: wrap;
+    }
+
+    .q-reaction {
+      margin-top: 18px;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      color: var(--glow-cyan);
+      font-size: 1.05rem;
+      min-height: 24px;
+    }
+
+    /* --- STEP 3: ETHEREAL CAKE & CANDLES --- */
+    .cake-section {
+      text-align: center;
+    }
+
+    .cake-area {
+      margin: 24px auto 18px;
+      width: 190px;
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.2s ease;
+    }
+
+    .cake-area:active {
+      transform: scale(0.97);
+    }
+
+    .candles {
+      display: flex;
+      justify-content: center;
+      gap: 22px;
+      margin-bottom: -2px;
+    }
+
+    .candle {
+      width: 8px;
+      height: 34px;
+      background: repeating-linear-gradient(
+        45deg,
+        #ffffff,
+        #ffffff 4px,
+        #4a90e2 4px,
+        #4a90e2 8px
+      );
+      border: 1px solid #2c65ab;
+      position: relative;
+    }
+
+    .flame {
+      position: absolute;
+      top: -16px;
+      left: 50%;
+      width: 11px;
+      height: 16px;
+      margin-left: -5.5px;
+      background: radial-gradient(circle at 50% 70%, #ffffff 25%, #bfe2ff 65%, #5ca4e6 100%);
+      border-radius: 50% 50% 50% 50% / 65% 65% 35% 35%;
+      box-shadow: 0 0 18px rgba(255, 255, 255, 0.95), 0 0 30px rgba(126, 200, 255, 0.75);
+      animation: flicker 0.7s infinite alternate;
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+
+    .candle.out .flame {
+      opacity: 0;
+      transform: scale(0);
+    }
+
+    @keyframes flicker {
+      0% { transform: scale(1) rotate(-2deg); }
+      100% { transform: scale(1.14, 0.92) rotate(3deg); }
+    }
+
+    .cake-top {
+      width: 124px;
+      height: 36px;
+      margin: 0 auto;
+      background: #134085;
+      border: 1px solid #4a90e2;
+      border-top: 5px solid #ffffff;
+      border-radius: 6px 6px 2px 2px;
+    }
+
+    .cake-bottom {
+      width: 164px;
+      height: 44px;
+      margin: 0 auto;
+      background: #0c2b5c;
+      border: 1px solid #336eb8;
+      border-top: 5px solid #7ec8ff;
+      border-radius: 6px 6px 4px 4px;
+    }
+
+    .cake-stand {
+      width: 194px;
+      height: 8px;
+      margin: 0 auto;
+      background: #d9eeff;
+      border-radius: 2px;
+      box-shadow: 0 4px 15px rgba(126, 200, 255, 0.5);
+    }
+
+    .cake-prompt {
+      font-size: 0.9rem;
+      color: var(--ink-mist);
+      font-style: italic;
+      margin-top: 12px;
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    /* --- STEP 4: LIVELY INTERACTIVE CARDS, SCRAPBOOK CHARMS & CAPSULE --- */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin: 20px 0 26px;
+      perspective: 900px;
+    }
+
+    @media(min-width: 500px) {
+      .cards-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .trait-card {
+      background: linear-gradient(145deg, rgba(16, 54, 114, 0.78), rgba(9, 34, 77, 0.85));
+      border: 1px solid rgba(166, 200, 235, 0.32);
+      padding: 18px 14px;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 8px 22px rgba(2, 10, 26, 0.4);
+      border-radius: 8px;
+      cursor: pointer;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(18px);
+      transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    /* Staggered Entrance & Subtle Floating Motion when Step 4 becomes visible */
+    .step.visible .trait-card {
+      animation: cardReveal 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards, cardFloat 4.5s ease-in-out infinite alternate;
+    }
+    .step.visible .trait-card:nth-child(1) { animation-delay: 0.1s, 0.8s; }
+    .step.visible .trait-card:nth-child(2) { animation-delay: 0.25s, 1.3s; }
+    .step.visible .trait-card:nth-child(3) { animation-delay: 0.4s, 1.8s; }
+    .step.visible .trait-card:nth-child(4) { animation-delay: 0.55s, 2.3s; }
+
+    @keyframes cardReveal {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes cardFloat {
+      0% { transform: translateY(0px); }
+      100% { transform: translateY(-4px); }
+    }
+
+    /* Light Sweep Effect on Cards */
+    .trait-card::after {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -75%;
+      width: 50%;
+      height: 200%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.14), transparent);
+      transform: rotate(25deg);
+      transition: left 0.65s ease;
+      pointer-events: none;
+    }
+
+    .trait-card:hover::after, .trait-card:active::after {
+      left: 135%;
+    }
+
+    .trait-card:hover, .trait-card:active {
+      border-color: var(--swan-white);
+      box-shadow: 0 10px 28px rgba(2, 10, 26, 0.55), 0 0 22px rgba(126, 200, 255, 0.35);
+      scale: 1.03;
+    }
+
+    .trait-badge {
+      display: inline-block;
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+      filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.5));
+    }
+
+    .trait-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.28rem;
+      color: var(--glow-cyan);
+      margin-bottom: 6px;
+    }
+
+    .trait-desc {
+      font-size: 0.81rem;
+      line-height: 1.6;
+      color: var(--ink-pearl);
+      font-weight: 300;
+      opacity: 0.94;
+    }
+
+    /* Scrapbook Charm Strip */
+    .charm-strip {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin: 10px 0 22px;
+      padding: 10px;
+      background: rgba(4, 19, 44, 0.6);
+      border: 1px dashed rgba(244, 184, 200, 0.4);
+      border-radius: 8px;
+      box-shadow: inset 0 0 15px rgba(244, 184, 200, 0.08);
+    }
+
+    .charm-item {
+      width: 42px;
+      height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      cursor: pointer;
+      animation: charmWiggle 3.5s ease-in-out infinite alternate;
+    }
+
+    .charm-item:nth-child(even) {
+      animation-delay: 1.2s;
+    }
+
+    @keyframes charmWiggle {
+      0% { transform: rotate(-5deg) scale(1); }
+      100% { transform: rotate(5deg) scale(1.06); }
+    }
+
+    .charm-item:hover, .charm-item:active {
+      transform: scale(1.32) rotate(12deg) !important;
+    }
+
+    /* Time Capsule with 3 Luminous Latches */
+    .capsule-section {
+      background: rgba(5, 22, 51, 0.88);
+      border: 1px solid rgba(126, 200, 255, 0.45);
+      padding: 20px 14px;
+      margin-top: 22px;
+      position: relative;
+      border-radius: 8px;
+      box-shadow: inset 0 0 25px rgba(126, 200, 255, 0.1), 0 8px 24px rgba(0, 0, 0, 0.45);
+    }
+
+    .capsule-header-bar {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .capsule-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.44rem;
+      color: var(--swan-white);
+      margin-bottom: 4px;
+    }
+
+    .capsule-sub {
+      text-align: center;
+      font-size: 0.84rem;
+      color: var(--ink-mist);
+      font-style: italic;
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    .capsule-progress-pill {
+      margin-top: 8px;
+      font-size: 0.68rem;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 20px;
+      background: rgba(126, 200, 255, 0.14);
+      border: 1px solid rgba(126, 200, 255, 0.35);
+      color: var(--glow-cyan);
+      transition: all 0.3s ease;
+    }
+
+    .latches-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .compartment {
+      background: rgba(11, 39, 84, 0.88);
+      border: 1px solid rgba(166, 200, 235, 0.28);
+      padding: 14px 16px;
+      position: relative;
+      border-radius: 6px;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.25s ease;
+    }
+
+    .compartment:hover {
+      border-color: rgba(126, 200, 255, 0.6);
+      transform: translateX(2px);
+    }
+
+    .compartment.unlocked {
+      border-color: var(--glow-cyan);
+      box-shadow: 0 0 18px rgba(126, 200, 255, 0.2);
+    }
+
+    .compartment-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+      gap: 8px;
+    }
+
+    .compartment-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 1.1px;
+      color: var(--glow-cyan);
+      font-weight: 500;
+    }
+
+    .brass-latch {
+      background: linear-gradient(135deg, #e8f4ff, #9fd3ff);
+      color: #051838;
+      border: 1px solid #ffffff;
+      padding: 6px 12px;
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      border-radius: 3px;
+      white-space: nowrap;
+      box-shadow: 0 2px 10px rgba(126, 200, 255, 0.35);
+      animation: latchPulse 2.4s infinite alternate;
+    }
+
+    @keyframes latchPulse {
+      0% { box-shadow: 0 0 6px rgba(126, 200, 255, 0.25); }
+      100% { box-shadow: 0 0 15px rgba(255, 255, 255, 0.65); }
+    }
+
+    .compartment.unlocked .brass-latch {
+      background: #4ea8de;
+      border-color: #bde0fe;
+      color: #031126;
+      animation: none;
+    }
+
+    .compartment-body {
+      display: none;
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px dashed rgba(166, 200, 235, 0.28);
+      font-size: 0.87rem;
+      line-height: 1.75;
+      color: var(--ink-pearl);
+      font-weight: 300;
+      animation: fadeSlideDown 0.45s ease forwards;
+    }
+
+    @keyframes fadeSlideDown {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .compartment.unlocked .compartment-body {
+      display: block;
+    }
+
+    /* Floating Pop-Heart Particle on Tap */
+    .tap-sparkle {
+      position: fixed;
+      pointer-events: none;
+      z-index: 400;
+      font-size: 1rem;
+      animation: floatUpFade 1s ease-out forwards;
+      user-select: none;
+    }
+
+    @keyframes floatUpFade {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(0.6); }
+      100% { opacity: 0; transform: translate(-50%, -140%) scale(1.35); }
+    }
+
+    /* Pearl Silver Scratch-Off Keepsake Card */
+    .scratch-wrapper {
+      display: none;
+      margin-top: 24px;
+      text-align: center;
+      animation: fadeSlideDown 0.5s ease forwards;
+    }
+
+    .scratch-wrapper.ready {
+      display: block;
+    }
+
+    .scratch-card-box {
+      position: relative;
+      width: 100%;
+      min-height: 210px;
+      background: #08234f;
+      border: 2px dashed var(--glow-cyan);
+      margin: 14px auto;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 16px;
+      border-radius: 6px;
+    }
+
+    .scratch-secret-text {
+      font-size: 0.88rem;
+      line-height: 1.8;
+      color: var(--ink-pearl);
+      z-index: 1;
+      user-select: none;
+      font-weight: 300;
+    }
+
+    .scratch-secret-text strong {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.25rem;
+      color: var(--swan-white);
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    #scratch-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 3;
+      cursor: crosshair;
+      touch-action: none;
+      transition: opacity 0.5s ease;
+    }
+
+    .scratch-controls {
+      margin-top: 10px;
+    }
+
+    .certificate-actions {
+      display: none;
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px dashed rgba(166, 200, 235, 0.25);
+    }
+
+    .certificate-actions.unlocked {
+      display: block;
+    }
+
+    .cert-btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+    }
+
+    @media(min-width: 480px) {
+      .cert-btn-group {
+        flex-direction: row;
+        justify-content: center;
+      }
+    }
+
+    /* --- UNIVERSAL POP-UP MODALS (WELCOME KITTY + FINAL HQ ORDER) --- */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 9, 23, 0.85);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 200;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .modal-backdrop.show {
+      display: flex;
+      opacity: 1;
+    }
+
+    .modal-card {
+      max-width: 440px;
+      width: 100%;
+      background: linear-gradient(155deg, #0d326e 0%, #051838 100%);
+      border: 2px solid var(--swan-white);
+      padding: clamp(22px, 4vw, 32px) clamp(16px, 4vw, 24px);
+      text-align: center;
+      border-radius: 10px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85), 0 0 40px rgba(126, 200, 255, 0.45);
+      position: relative;
+      transform: scale(0.86) translateY(18px);
+      transition: transform 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .modal-backdrop.show .modal-card {
+      transform: scale(1) translateY(0);
+    }
+
+    .hq-stamp {
+      display: inline-block;
+      border: 1.5px solid #ff9eb5;
+      color: #ff9eb5;
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      margin-bottom: 14px;
+      transform: rotate(-2deg);
+    }
+
+    .hq-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.45rem, 4.5vw, 1.72rem);
+      color: var(--swan-white);
+      margin-bottom: 6px;
+    }
+
+    .hq-details {
+      margin: 16px auto;
+      padding: 14px;
+      background: rgba(4, 19, 44, 0.72);
+      border: 1px dashed rgba(166, 200, 235, 0.45);
+      font-size: 0.86rem;
+      line-height: 1.85;
+      color: var(--ink-pearl);
+      text-align: left;
+      border-radius: 6px;
+    }
+
+    .hq-details span.label {
+      color: var(--glow-cyan);
+      font-weight: 500;
+      text-transform: uppercase;
+      font-size: 0.74rem;
+      letter-spacing: 1px;
+    }
+
+    .hq-warning {
+      margin: 14px 0 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #ffd1dc;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Live Twinkling Canvas + Shooting Stars + Touch Stardust -->
+  <canvas id="ambient-canvas"></canvas>
+
+  <!-- Floating Aesthetic Stickers -->
+  <div class="floating-stickers" aria-hidden="true">
+    <div class="sticker spin-slow" style="top: 5%; left: 5%; width: 44px; height: 44px;">
+      <svg viewBox="0 0 64 64" fill="none">
+        <circle cx="32" cy="32" r="28" fill="url(#discoGrad)" stroke="#fff" stroke-width="1.5"/>
+        <path d="M4 32h56M32 4v56M10 18h44M10 46h44M18 10v44M46 10v44" stroke="rgba(4,19,44,0.55)" stroke-width="1.2"/>
+        <defs>
+          <radialGradient id="discoGrad" cx="35%" cy="30%" r="70%">
+            <stop offset="0%" stop-color="#ffffff"/>
+            <stop offset="50%" stop-color="#b8dcff"/>
+            <stop offset="100%" stop-color="#4378b8"/>
+          </radialGradient>
+        </defs>
+      </svg>
+    </div>
+
+    <div class="sticker" style="top: 6%; right: 6%; width: 44px; height: 48px; animation-delay: 1s;">
+      <svg viewBox="0 0 64 68" fill="none">
+        <polygon points="32,6 10,56 54,56" fill="#e89cb3" stroke="#fff" stroke-width="1.5"/>
+        <circle cx="32" cy="6" r="5" fill="#ffd6e2"/>
+        <circle cx="12" cy="56" r="4" fill="#ffd6e2"/><circle cx="22" cy="57" r="4" fill="#ffd6e2"/>
+        <circle cx="32" cy="57" r="4" fill="#ffd6e2"/><circle cx="42" cy="57" r="4" fill="#ffd6e2"/>
+        <circle cx="52" cy="56" r="4" fill="#ffd6e2"/>
+        <circle cx="28" cy="28" r="2" fill="#fff"/><circle cx="37" cy="38" r="2" fill="#fff"/>
+      </svg>
+    </div>
+
+    <div class="sticker" style="bottom: 8%; left: 6%; width: 46px; height: 46px; animation-delay: 2s;">
+      <svg viewBox="0 0 64 64" fill="none">
+        <path d="M32 4L40 22L60 25L45 39L49 58L32 49L15 58L19 39L4 25L24 22L32 4Z" fill="url(#starGrad)" stroke="#fff" stroke-width="1.5"/>
+        <defs>
+          <linearGradient id="starGrad" x1="0" y1="0" x2="64" y2="64">
+            <stop offset="0%" stop-color="#ffffff"/>
+            <stop offset="50%" stop-color="#9fd3ff"/>
+            <stop offset="100%" stop-color="#3c6ca8"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+
+    <div class="sticker" style="bottom: 8%; right: 6%; width: 44px; height: 44px; animation-delay: 1.5s;">
+      <svg viewBox="0 0 64 64" fill="none">
+        <path d="M32 56C32 56 8 40 8 22C8 14 14 8 21 8C26 8 30 11 32 15C34 11 38 8 43 8C50 8 56 14 56 22C56 40 32 56 32 56Z" fill="url(#heartGrad)" stroke="#fff" stroke-width="1.5"/>
+        <defs>
+          <radialGradient id="heartGrad" cx="35%" cy="30%" r="70%">
+            <stop offset="0%" stop-color="#ffd9e4"/>
+            <stop offset="55%" stop-color="#d4889e"/>
+            <stop offset="100%" stop-color="#7d4256"/>
+          </radialGradient>
+        </defs>
+      </svg>
+    </div>
+  </div>
+
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- INITIAL WELCOME POP-UP MODAL (WITH CUTE KITTY) -->
+  <div class="modal-backdrop show" id="welcome-modal">
+    <div class="modal-card">
+      <div class="kitty-mascot" onclick="petKitty(this, event)" title="Tap me!">
+        <svg viewBox="0 0 100 100" fill="none">
+          <polygon points="50,6 36,30 64,30" fill="#f4b8c8" stroke="#fff" stroke-width="1.5"/>
+          <circle cx="50" cy="6" r="4" fill="#fff"/>
+          <polygon points="24,42 20,18 42,32" fill="#ffffff" stroke="#a6c8eb" stroke-width="1.5"/>
+          <polygon points="76,42 80,18 58,32" fill="#ffffff" stroke="#a6c8eb" stroke-width="1.5"/>
+          <polygon points="26,38 24,24 37,33" fill="#f4b8c8"/>
+          <polygon points="74,38 76,24 63,33" fill="#f4b8c8"/>
+          <ellipse cx="50" cy="58" rx="34" ry="28" fill="#ffffff" stroke="#a6c8eb" stroke-width="2"/>
+          <path d="M66 28 C60 22, 58 34, 66 31 C74 34, 72 22, 66 28 Z" fill="#f4b8c8" stroke="#fff" stroke-width="1"/>
+          <circle cx="38" cy="56" r="3.5" fill="#051838"/>
+          <circle cx="62" cy="56" r="3.5" fill="#051838"/>
+          <circle cx="37" cy="54.8" r="1.2" fill="#fff"/>
+          <circle cx="61" cy="54.8" r="1.2" fill="#fff"/>
+          <ellipse cx="31" cy="63" rx="4.5" ry="2.5" fill="#f4b8c8" opacity="0.8"/>
+          <ellipse cx="69" cy="63" rx="4.5" ry="2.5" fill="#f4b8c8" opacity="0.8"/>
+          <ellipse cx="50" cy="61" rx="2.5" ry="1.8" fill="#f4b8c8"/>
+          <path d="M45 65 Q50 69 55 65" stroke="#051838" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M16 56 L27 58 M15 62 L27 62 M84 56 L73 58 M85 62 L73 62" stroke="#7ec8ff" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="hq-stamp" style="border-color: var(--glow-cyan); color: var(--glow-cyan);">✨ Special Delivery For Mandar</div>
+      <h3 class="hq-title">Meow! Happy 21st Birthday 🐾</h3>
+      <p style="font-size: 0.92rem; color: var(--ink-mist); font-family: 'Cormorant Garamond', serif; font-style: italic; margin: 10px 0 20px; line-height: 1.5;">
+        A dreamy little 21st birthday surprise is waiting inside. Tap below to begin your 24:11 journey!
+      </p>
+      <button class="btn btn-accent" id="start-journey-btn">Enter 24:11 Capsule ✨</button>
+    </div>
+  </div>
+
+  <main class="stage-container">
+    <div class="scrapbook-inner">
+      <div class="meta-bar">
+        <span>21st Edition</span>
+        <span id="stage-label">Step 01 / 03</span>
+      </div>
+
+      <!-- STEP 1: SECRET CODE ENTRY (24:11) -->
+      <section class="step active visible" id="step-1">
+        <div class="passcode-box">
+          <div class="kitty-mascot" onclick="petKitty(this, event)" title="Tap the kitty!">
+            <svg viewBox="0 0 100 100" fill="none">
+              <polygon points="24,42 20,18 42,32" fill="#ffffff" stroke="#a6c8eb" stroke-width="1.5"/>
+              <polygon points="76,42 80,18 58,32" fill="#ffffff" stroke="#a6c8eb" stroke-width="1.5"/>
+              <polygon points="26,38 24,24 37,33" fill="#f4b8c8"/>
+              <polygon points="74,38 76,24 63,33" fill="#f4b8c8"/>
+              <ellipse cx="50" cy="58" rx="34" ry="28" fill="#ffffff" stroke="#a6c8eb" stroke-width="2"/>
+              <path d="M66 28 C60 22, 58 34, 66 31 C74 34, 72 22, 66 28 Z" fill="#f4b8c8" stroke="#fff" stroke-width="1"/>
+              <circle cx="38" cy="56" r="3.5" fill="#051838"/>
+              <circle cx="62" cy="56" r="3.5" fill="#051838"/>
+              <circle cx="37" cy="54.8" r="1.2" fill="#fff"/>
+              <circle cx="61" cy="54.8" r="1.2" fill="#fff"/>
+              <ellipse cx="31" cy="63" rx="4.5" ry="2.5" fill="#f4b8c8" opacity="0.8"/>
+              <ellipse cx="69" cy="63" rx="4.5" ry="2.5" fill="#f4b8c8" opacity="0.8"/>
+              <ellipse cx="50" cy="61" rx="2.5" ry="1.8" fill="#f4b8c8"/>
+              <path d="M45 65 Q50 69 55 65" stroke="#051838" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M16 56 L27 58 M15 62 L27 62 M84 56 L73 58 M85 62 L73 62" stroke="#7ec8ff" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="kitty-speech" id="kitty-speech">Psst... tap me or enter 24:11 below! 🐾</div>
+
+          <h2>24:11</h2>
+          <p class="subtitle">Enter the secret date code to unlock Mandar's 21st capsule.</p>
+          <input type="text" id="code-input" class="code-input" placeholder="•• : ••" maxlength="10" autocomplete="off" />
+          <div class="error-msg" id="code-error">Hint: A special date (24:11)</div>
+          <button class="btn btn-accent" id="unlock-btn">Open Time Capsule</button>
+        </div>
+      </section>
+
+      <!-- STEP 2: 5 LIGHTHEARTED QUESTIONS -->
+      <section class="step" id="step-2">
+        <div class="question-box">
+          <div class="q-counter" id="q-counter">Question 1 of 5</div>
+          <div class="q-text" id="q-text">Loading question...</div>
+          <div class="yn-buttons">
+            <button class="btn btn-accent" id="yes-btn">Yes</button>
+            <button class="btn" id="no-btn">No</button>
+          </div>
+          <div class="q-reaction" id="q-reaction"></div>
+        </div>
+      </section>
+
+      <!-- STEP 3: BLOW THE CANDLE ON THE CAKE -->
+      <section class="step" id="step-3">
+        <div class="cake-section">
+          <h2>Make A Birthday Wish</h2>
+          <p class="subtitle">Close your eyes for a moment, make a quiet wish, and blow out the candles.</p>
+
+          <div class="cake-area" id="cake-area">
+            <div class="candles">
+              <div class="candle"><div class="flame"></div></div>
+              <div class="candle"><div class="flame"></div></div>
+              <div class="candle"><div class="flame"></div></div>
+            </div>
+            <div class="cake-top"></div>
+            <div class="cake-bottom"></div>
+            <div class="cake-stand"></div>
+          </div>
+
+          <p class="cake-prompt" id="cake-prompt">Tap the candles or button below to blow them out</p>
+          <div style="margin-top: 18px;">
+            <button class="btn btn-accent" id="blow-btn">Blow Out Candles 🕯️</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- STEP 4: LIVELY CARDS, SCRAPBOOK CHARMS & CAPSULE -->
+      <section class="step" id="step-4">
+        <h2 class="shimmer-title">Happy 21st Birthday, Mandar</h2>
+        <p class="subtitle">Four things that make you who you are — tap any card for a little sparkle</p>
+
+        <!-- Cute Scrapbook Elements Bar -->
+        <div class="charm-strip" title="Tap any keepsake charm!">
+          <!-- Teddy Bear -->
+          <div class="charm-item" onclick="spawnTapSparkle(event, '🧸'); launchCobaltConfetti()" title="Cuddle Bear">
+            <svg viewBox="0 0 64 64" fill="none">
+              <circle cx="18" cy="18" r="8" fill="#a87e58"/><circle cx="46" cy="18" r="8" fill="#a87e58"/>
+              <circle cx="32" cy="34" r="18" fill="#ba8e65"/>
+              <ellipse cx="32" cy="39" rx="7" ry="5" fill="#e6cbb1"/>
+              <circle cx="32" cy="37" r="2.2" fill="#3d2714"/>
+              <circle cx="25" cy="31" r="2.2" fill="#2b1b0e"/><circle cx="39" cy="31" r="2.2" fill="#2b1b0e"/>
+              <path d="M44 16 C40 12, 39 20, 44 18 C49 20, 48 12, 44 16 Z" fill="#f4b8c8"/>
+            </svg>
+          </div>
+
+          <!-- Strawberry Cream Cake -->
+          <div class="charm-item" onclick="spawnTapSparkle(event, '🍰'); launchCobaltConfetti()" title="21st Strawberry Cake">
+            <svg viewBox="0 0 64 64" fill="none">
+              <rect x="12" y="28" width="40" height="24" rx="4" fill="#fff" stroke="#a6c8eb" stroke-width="1.5"/>
+              <path d="M12 34 Q20 40 28 34 Q36 40 44 34 Q48 38 52 34" stroke="#f4b8c8" stroke-width="2.5" fill="none"/>
+              <circle cx="22" cy="24" r="4.5" fill="#d94e67"/><circle cx="32" cy="23" r="5" fill="#d94e67"/><circle cx="42" cy="24" r="4.5" fill="#d94e67"/>
+            </svg>
+          </div>
+
+          <!-- Satin Silk Bow -->
+          <div class="charm-item" onclick="spawnTapSparkle(event, '🎀'); launchCobaltConfetti()" title="Ribbon Charm">
+            <svg viewBox="0 0 64 64" fill="none">
+              <path d="M32 30 C16 14, 8 28, 28 32 C12 38, 16 50, 32 34 C48 50, 52 38, 36 32 C56 28, 48 14, 32 30 Z" fill="#f4b8c8" stroke="#fff" stroke-width="1.2"/>
+              <circle cx="32" cy="32" r="4" fill="#ffe3eb"/>
+            </svg>
+          </div>
+
+          <!-- Rose Bouquet -->
+          <div class="charm-item" onclick="spawnTapSparkle(event, '🌷'); launchCobaltConfetti()" title="Birthday Blooms">
+            <svg viewBox="0 0 64 64" fill="none">
+              <polygon points="20,28 44,28 32,56" fill="#d6b48c" stroke="#fff" stroke-width="1"/>
+              <circle cx="24" cy="24" r="6" fill="#e87a96"/><circle cx="32" cy="20" r="6.5" fill="#f49bb2"/><circle cx="40" cy="24" r="6" fill="#e87a96"/>
+              <circle cx="28" cy="28" r="5.5" fill="#d45d7c"/><circle cx="36" cy="28" r="5.5" fill="#d45d7c"/>
+            </svg>
+          </div>
+
+          <!-- Kitty Charm -->
+          <div class="charm-item" onclick="spawnTapSparkle(event, '🐾'); launchCobaltConfetti()" title="Lucky Kitty">
+            <svg viewBox="0 0 64 64" fill="none">
+              <polygon points="16,28 14,12 28,22" fill="#fff"/><polygon points="48,28 50,12 36,22" fill="#fff"/>
+              <ellipse cx="32" cy="38" rx="20" ry="16" fill="#fff"/>
+              <circle cx="25" cy="36" r="2.2" fill="#051838"/><circle cx="39" cy="36" r="2.2" fill="#051838"/>
+              <ellipse cx="32" cy="40" rx="2" ry="1.4" fill="#f4b8c8"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="cards-grid">
+          <div class="trait-card" onclick="spawnTapSparkle(event, '🤍')">
+            <div class="trait-badge">🤍</div>
+            <h3 class="trait-title">Soft &amp; Kind Heart</h3>
+            <p class="trait-desc">You carry a rare gentleness. The quiet care you show and that soft-hearted side you rarely let people see make you truly one of a kind.</p>
+          </div>
+          <div class="trait-card" onclick="spawnTapSparkle(event, '✨')">
+            <div class="trait-badge">✨</div>
+            <h3 class="trait-title">Hardworking</h3>
+            <p class="trait-desc">The way you dedicate yourself and work so hard for the things you want never goes unnoticed. Your quiet persistence is inspiring.</p>
+          </div>
+          <div class="trait-card" onclick="spawnTapSparkle(event, '🌸')">
+            <div class="trait-badge">🌸</div>
+            <h3 class="trait-title">Effortlessly Cute</h3>
+            <p class="trait-desc">In the smallest, most ordinary moments—your smile, your expressions, the little things you do—you bring warmth without even trying.</p>
+          </div>
+          <div class="trait-card" onclick="spawnTapSparkle(event, '🌙')">
+            <div class="trait-badge">🌙</div>
+            <h3 class="trait-title">Humble</h3>
+            <p class="trait-desc">Grounded, genuine, and never needing to show off. Your humble nature and the goodness in you make people deeply respect you.</p>
+          </div>
+        </div>
+
+        <!-- TIME CAPSULE (3 LUMINOUS LATCHES) -->
+        <div class="capsule-section">
+          <div class="capsule-header-bar">
+            <h3 class="capsule-title">🦢 The 24:11 Time Capsule</h3>
+            <p class="capsule-sub">Tap each latch to unseal the compartments inside</p>
+            <div class="capsule-progress-pill" id="capsule-progress">0 of 3 Unsealed</div>
+          </div>
+
+          <div class="latches-stack">
+            <!-- Latch 1 -->
+            <div class="compartment" id="comp-1">
+              <div class="compartment-header" onclick="toggleCompartment(1, event)">
+                <span class="compartment-label">Compartment I • A Little Something</span>
+                <span class="brass-latch" id="latch-btn-1">Unlatch</span>
+              </div>
+              <div class="compartment-body">
+                Dear You,<br><br>
+                If someone asked me what makes you special, I don't think I'd have just one answer. Maybe it's your kindness, your humble nature, the way you work so hard for the things you want, or that soft-hearted side you rarely let people see.
+              </div>
+            </div>
+
+            <!-- Latch 2 -->
+            <div class="compartment" id="comp-2">
+              <div class="compartment-header" onclick="toggleCompartment(2, event)">
+                <span class="compartment-label">Compartment II • A Reminder For You</span>
+                <span class="brass-latch" id="latch-btn-2">Unlatch</span>
+              </div>
+              <div class="compartment-body">
+                I hope you know that you don't have to achieve something extraordinary to be appreciated. Even in your ordinary moments, you're someone worth appreciating.<br><br>
+                I hope you never stop dreaming big, never underestimate your efforts, and never let the world take away the goodness in you.
+              </div>
+            </div>
+
+            <!-- Latch 3 -->
+            <div class="compartment" id="comp-3">
+              <div class="compartment-header" onclick="toggleCompartment(3, event)">
+                <span class="compartment-label">Compartment III • Whenever Life Feels Heavy</span>
+                <span class="brass-latch" id="latch-btn-3">Unlatch</span>
+              </div>
+              <div class="compartment-body">
+                And whenever life feels a little overwhelming, remember there's someone who genuinely wants to see you happy, growing, and becoming everything you've dreamed of.
+              </div>
+            </div>
+          </div>
+
+          <!-- PEARL SILVER SCRATCH-OFF KEEPSAKE CARD -->
+          <div class="scratch-wrapper" id="scratch-wrapper">
+            <p style="font-size: 0.76rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--glow-cyan); margin-bottom: 10px;">✦ Scratch Mist Foil Below ✦</p>
+
+            <div class="scratch-card-box" id="scratch-box">
+              <div class="scratch-secret-text">
+                <strong>24:11 Keepsake Note</strong>
+                Of all the unexpected things life brings, I'm glad our paths crossed.<br><br>
+                Stay you. That's already something beautiful.<br><br>
+                <em>With warmth, always. ♡</em>
+              </div>
+              <canvas id="scratch-canvas"></canvas>
+            </div>
+
+            <div class="scratch-controls">
+              <button class="btn" id="reveal-foil-btn" style="font-size: 0.72rem; padding: 6px 12px;">Reveal Foil Instantly</button>
+            </div>
+
+            <!-- Downloadable Certificate + Button to Re-open Pop-Up Order -->
+            <div class="certificate-actions" id="cert-actions">
+              <p style="font-size: 0.84rem; color: var(--ink-mist); margin-bottom: 12px; font-style: italic; font-family: 'Cormorant Garamond', serif;">
+                All compartments unsealed! Save your formal 21st Edition Certificate or view your HQ Order:
+              </p>
+              <div class="cert-btn-group">
+                <button class="btn btn-accent" id="download-cert-btn">Download Certificate 📜</button>
+                <button class="btn" id="open-hq-modal-btn">View HQ Order 📩</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- FINAL POP-UP MODAL: OFFICIAL ORDER FROM HEADQUARTERS -->
+  <div class="modal-backdrop" id="hq-modal">
+    <div class="modal-card">
+      <div class="hq-stamp">⚠️ Official Order From Headquarters</div>
+      <h3 class="hq-title">Mandatory Birthday Summons</h3>
+      <p style="font-size: 0.88rem; color: var(--ink-mist); font-family: 'Cormorant Garamond', serif; font-style: italic;">
+        You are hereby summoned to celebrate in person.
+      </p>
+
+      <div class="hq-details">
+        <div><span class="label">Date:</span> 25th November</div>
+        <div><span class="label">Reporting Time:</span> Sharp 1:45 PM – 2:00 PM (until dinner)</div>
+        <div><span class="label">Location:</span> Vasai Station</div>
+      </div>
+
+      <div class="hq-warning">✦ Order from Headquarters — Do not change the plan ✦</div>
+
+      <button class="btn btn-accent" id="close-hq-modal-btn">Understood, Sir! 🫡</button>
+    </div>
+  </div>
+
+  <script>
+    /* =========================================
+       FLOATING TAP SPARKLE / HEART HELPER
+    ========================================= */
+    function spawnTapSparkle(e, symbol = '✨') {
+      const clientX = e && e.touches ? e.touches[0].clientX : (e ? e.clientX : window.innerWidth / 2);
+      const clientY = e && e.touches ? e.touches[0].clientY : (e ? e.clientY : window.innerHeight / 2);
+
+      const offsets = [
+        { dx: 0, dy: 0 },
+        { dx: -18, dy: -10 },
+        { dx: 18, dy: -12 }
+      ];
+
+      offsets.forEach((off, idx) => {
+        const el = document.createElement('div');
+        el.className = 'tap-sparkle';
+        el.textContent = idx === 0 ? symbol : '✨';
+        el.style.left = `${clientX + off.dx}px`;
+        el.style.top = `${clientY + off.dy}px`;
+        el.style.animationDelay = `${idx * 0.08}s`;
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 1100);
+      });
+    }
+
+    /* =========================================
+       0. INITIAL WELCOME POP-UP & KITTY INTERACTION
+    ========================================= */
+    const welcomeModal = document.getElementById('welcome-modal');
+    const startJourneyBtn = document.getElementById('start-journey-btn');
+    const kittySpeech = document.getElementById('kitty-speech');
+    const kittyQuotes = [
+      "Purr~ Happy 21st Birthday Mandar! 🐾",
+      "Hint: Type 24:11 to unlock the magic ✨",
+      "Meow! Make sure you check every latch!",
+      "21 looks great on you! 🎉"
+    ];
+    let quoteIdx = 0;
+
+    function petKitty(el, e) {
+      if (e) spawnTapSparkle(e, '🐾');
+      el.style.transform = "scale(1.22) rotate(8deg)";
+      setTimeout(() => { el.style.transform = ""; }, 280);
+      quoteIdx = (quoteIdx + 1) % kittyQuotes.length;
+      if (kittySpeech) kittySpeech.textContent = kittyQuotes[quoteIdx];
+    }
+
+    startJourneyBtn.addEventListener('click', () => {
+      welcomeModal.classList.remove('show');
+      setTimeout(() => {
+        welcomeModal.style.display = 'none';
+        document.getElementById('code-input').focus();
+      }, 400);
+    });
+
+    /* =========================================
+       1. PASSWORD CONFIGURATION (24:11)
+    ========================================= */
+    const SECRET_CODE = "24:11";
+
+    /* =========================================
+       2. 5 PLAYFUL BIRTHDAY QUESTIONS (21ST BIRTHDAY)
+    ========================================= */
+    const cuteQuestions = [
+      {
+        q: "1. Is 24:11 officially the best date on the calendar?",
+        yesMsg: "100% agreed! Moving to the next one...",
+        noMsg: "Nice try! Wrong button—tap Yes 😉"
+      },
+      {
+        q: "2. Are you ready to officially welcome your 22nd Year of Life?",
+        yesMsg: "22 is going to be an unforgettable chapter!",
+        noMsg: "No turning back the clock—hit Yes ✨"
+      },
+      {
+        q: "3. Do you have a birthday wish ready in your head?",
+        yesMsg: "Keep it secret until the candles go out!",
+        noMsg: "Think of a good one right now and click Yes 🌠"
+      },
+      {
+        q: "4. Should birthday calories officially not count today?",
+        yesMsg: "Best rule ever. One last question...",
+        noMsg: "Come on, it's your 21st! Tap Yes 🍰"
+      },
+      {
+        q: "5. Ready to blow out the candles and open your 24:11 capsule?",
+        yesMsg: "Lighting the candles now!",
+        noMsg: "Too late, the cake is already waiting! Click Yes 🎂"
+      }
+    ];
+
+    /* =========================================
+       STEP NAVIGATION HELPER
+    ========================================= */
+    function goToStep(stepNum, labelText) {
+      document.querySelectorAll('.step').forEach(s => {
+        s.classList.remove('visible');
+        setTimeout(() => s.classList.remove('active'), 400);
+      });
+
+      setTimeout(() => {
+        const next = document.getElementById(`step-${stepNum}`);
+        next.classList.add('active');
+        void next.offsetWidth;
+        next.classList.add('visible');
+        document.getElementById('stage-label').textContent = labelText;
+      }, 420);
+    }
+
+    /* =========================================
+       STEP 1: CODE UNLOCK
+    ========================================= */
+    const codeInput = document.getElementById('code-input');
+    const codeError = document.getElementById('code-error');
+    const unlockBtn = document.getElementById('unlock-btn');
+
+    function checkCode() {
+      const val = codeInput.value.trim();
+      if (val === SECRET_CODE) {
+        codeError.textContent = "Code accepted. Opening...";
+        goToStep(2, "Step 02 / 03");
+      } else {
+        codeError.textContent = "Incorrect code. Hint: Enter 24:11";
+        codeInput.value = "";
+        codeInput.focus();
+      }
+    }
+
+    unlockBtn.addEventListener('click', checkCode);
+    codeInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') checkCode();
+    });
+
+    /* =========================================
+       STEP 2: 5 QUESTIONS LOOP
+    ========================================= */
+    let qIndex = 0;
+    const qCounter = document.getElementById('q-counter');
+    const qText = document.getElementById('q-text');
+    const qReaction = document.getElementById('q-reaction');
+    const yesBtn = document.getElementById('yes-btn');
+    const noBtn = document.getElementById('no-btn');
+
+    function renderQuestion() {
+      qCounter.textContent = `Question ${qIndex + 1} of ${cuteQuestions.length}`;
+      qText.textContent = cuteQuestions[qIndex].q;
+      qReaction.textContent = "";
+      noBtn.style.transform = "translate(0, 0)";
+    }
+
+    yesBtn.addEventListener('click', (e) => {
+      spawnTapSparkle(e, '✨');
+      qReaction.textContent = cuteQuestions[qIndex].yesMsg;
+      yesBtn.disabled = true;
+
+      setTimeout(() => {
+        yesBtn.disabled = false;
+        qIndex++;
+        if (qIndex < cuteQuestions.length) {
+          renderQuestion();
+        } else {
+          goToStep(3, "Step 03 / 03");
+        }
+      }, 850);
+    });
+
+    noBtn.addEventListener('click', () => {
+      qReaction.textContent = cuteQuestions[qIndex].noMsg;
+      const randX = (Math.random() - 0.5) * 75;
+      const randY = (Math.random() - 0.5) * 22;
+      noBtn.style.transform = `translate(${randX}px, ${randY}px)`;
+    });
+
+    renderQuestion();
+
+    /* =========================================
+       STEP 3: BLOW CANDLES
+    ========================================= */
+    const candles = document.querySelectorAll('.candle');
+    const blowBtn = document.getElementById('blow-btn');
+    const cakeArea = document.getElementById('cake-area');
+    const cakePrompt = document.getElementById('cake-prompt');
+    let candlesBlown = false;
+
+    function blowOutCandles() {
+      if (candlesBlown) return;
+      candlesBlown = true;
+
+      candles.forEach((c, i) => {
+        setTimeout(() => c.classList.add('out'), i * 140);
+      });
+
+      cakePrompt.textContent = "✨ Wish made! Unlocking your Time Capsule...";
+      blowBtn.style.display = "none";
+      launchCobaltConfetti();
+
+      setTimeout(() => {
+        goToStep(4, "21st Edition");
+        setTimeout(launchCobaltConfetti, 500);
+      }, 1350);
+    }
+
+    blowBtn.addEventListener('click', blowOutCandles);
+    cakeArea.addEventListener('click', blowOutCandles);
+
+    /* =========================================
+       STEP 4A: TIME CAPSULE LATCHES
+    ========================================= */
+    const unlockedSet = new Set();
+    let scratchInitialized = false;
+
+    function toggleCompartment(num, e) {
+      const comp = document.getElementById(`comp-${num}`);
+      const latchBtn = document.getElementById(`latch-btn-${num}`);
+      const progressPill = document.getElementById('capsule-progress');
+
+      if (!comp.classList.contains('unlocked')) {
+        if (e) spawnTapSparkle(e, '🔓');
+        comp.classList.add('unlocked');
+        latchBtn.textContent = "Opened ✓";
+        unlockedSet.add(num);
+        progressPill.textContent = `${unlockedSet.size} of 3 Unsealed`;
+
+        if (unlockedSet.size === 3) {
+          progressPill.textContent = "All 3 Unsealed — Secret Note Unlocked! ✨";
+          progressPill.style.background = "rgba(126, 200, 255, 0.28)";
+          progressPill.style.color = "#ffffff";
+          launchCobaltConfetti();
+
+          const scratchWrapper = document.getElementById('scratch-wrapper');
+          scratchWrapper.classList.add('ready');
+          if (!scratchInitialized) {
+            setTimeout(initScratchCard, 100);
+            scratchInitialized = true;
+          }
+        }
+      }
+    }
+
+    /* =========================================
+       STEP 4B: PEARL MIST SCRATCH CARD & FINAL POP-UP MODAL
+    ========================================= */
+    const scratchCanvas = document.getElementById('scratch-canvas');
+    const sCtx = scratchCanvas.getContext('2d');
+    const hqModal = document.getElementById('hq-modal');
+    let isDrawing = false;
+    let foilCleared = false;
+
+    function openHqModal() {
+      hqModal.style.display = 'flex';
+      void hqModal.offsetWidth;
+      hqModal.classList.add('show');
+    }
+
+    function closeHqModal() {
+      hqModal.classList.remove('show');
+      setTimeout(() => { hqModal.style.display = 'none'; }, 400);
+    }
+
+    document.getElementById('close-hq-modal-btn').addEventListener('click', closeHqModal);
+    document.getElementById('open-hq-modal-btn').addEventListener('click', openHqModal);
+    hqModal.addEventListener('click', (e) => {
+      if (e.target === hqModal) closeHqModal();
+    });
+
+    function initScratchCard() {
+      const box = document.getElementById('scratch-box');
+      scratchCanvas.width = box.offsetWidth;
+      scratchCanvas.height = box.offsetHeight;
+
+      const grad = sCtx.createLinearGradient(0, 0, scratchCanvas.width, scratchCanvas.height);
+      grad.addColorStop(0, '#d9eeff');
+      grad.addColorStop(0.5, '#8ec5fc');
+      grad.addColorStop(1, '#bce0fd');
+      sCtx.fillStyle = grad;
+      sCtx.fillRect(0, 0, scratchCanvas.width, scratchCanvas.height);
+
+      sCtx.strokeStyle = 'rgba(5, 24, 56, 0.35)';
+      sCtx.lineWidth = 2;
+      sCtx.strokeRect(8, 8, scratchCanvas.width - 16, scratchCanvas.height - 16);
+
+      sCtx.fillStyle = '#051838';
+      sCtx.font = 'bold 14px "Montserrat", sans-serif';
+      sCtx.textAlign = 'center';
+      sCtx.fillText('✦ SCRATCH MIST FOIL ✦', scratchCanvas.width / 2, scratchCanvas.height / 2 - 6);
+      sCtx.font = 'italic 13px "Cormorant Garamond", serif';
+      sCtx.fillText('(Touch or drag to scratch)', scratchCanvas.width / 2, scratchCanvas.height / 2 + 16);
+    }
+
+    function scratchAt(x, y) {
+      if (foilCleared) return;
+      sCtx.globalCompositeOperation = 'destination-out';
+      sCtx.beginPath();
+      sCtx.arc(x, y, 22, 0, Math.PI * 2);
+      sCtx.fill();
+      checkScratchProgress();
+    }
+
+    function getPos(e) {
+      const rect = scratchCanvas.getBoundingClientRect();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      return { x: clientX - rect.left, y: clientY - rect.top };
+    }
+
+    scratchCanvas.addEventListener('mousedown', (e) => { isDrawing = true; const p = getPos(e); scratchAt(p.x, p.y); });
+    scratchCanvas.addEventListener('mousemove', (e) => { if (!isDrawing) return; const p = getPos(e); scratchAt(p.x, p.y); });
+    window.addEventListener('mouseup', () => { isDrawing = false; });
+
+    scratchCanvas.addEventListener('touchstart', (e) => { isDrawing = true; const p = getPos(e); scratchAt(p.x, p.y); });
+    scratchCanvas.addEventListener('touchmove', (e) => { if (!isDrawing) return; e.preventDefault(); const p = getPos(e); scratchAt(p.x, p.y); }, { passive: false });
+    window.addEventListener('touchend', () => { isDrawing = false; });
+
+    function checkScratchProgress() {
+      const imgData = sCtx.getImageData(0, 0, scratchCanvas.width, scratchCanvas.height).data;
+      let transparentPixels = 0;
+      for (let i = 3; i < imgData.length; i += 32) {
+        if (imgData[i] === 0) transparentPixels++;
+      }
+      const totalSampled = imgData.length / 32;
+      if (transparentPixels / totalSampled > 0.38) {
+        finishFoilReveal();
+      }
+    }
+
+    function finishFoilReveal() {
+      if (foilCleared) return;
+      foilCleared = true;
+      scratchCanvas.style.opacity = '0';
+      setTimeout(() => { scratchCanvas.style.display = 'none'; }, 500);
+      document.getElementById('reveal-foil-btn').style.display = 'none';
+      document.getElementById('cert-actions').classList.add('unlocked');
+      launchCobaltConfetti();
+
+      setTimeout(() => {
+        openHqModal();
+      }, 1350);
+    }
+
+    document.getElementById('reveal-foil-btn').addEventListener('click', finishFoilReveal);
+
+    /* =========================================
+       STEP 4C: DREAMY COBALT LAKE 21ST CERTIFICATE (DOWNLOAD)
+    ========================================= */
+    document.getElementById('download-cert-btn').addEventListener('click', () => {
+      const certCanvas = document.createElement('canvas');
+      certCanvas.width = 1000;
+      certCanvas.height = 700;
+      const c = certCanvas.getContext('2d');
+
+      const bgGrad = c.createRadialGradient(500, 320, 60, 500, 350, 650);
+      bgGrad.addColorStop(0, '#0f3f8a');
+      bgGrad.addColorStop(1, '#04132c');
+      c.fillStyle = bgGrad;
+      c.fillRect(0, 0, 1000, 700);
+
+      c.fillStyle = 'rgba(255, 255, 255, 0.45)';
+      const mistCoords = [[120,110],[880,130],[160,520],[840,510],[310,95],[710,85],[220,380],[790,340]];
+      mistCoords.forEach(([sx, sy]) => {
+        c.beginPath();
+        c.arc(sx, sy, 2, 0, Math.PI * 2);
+        c.fill();
+      });
+
+      c.strokeStyle = '#ffffff';
+      c.lineWidth = 4;
+      c.strokeRect(32, 32, 936, 636);
+
+      c.strokeStyle = '#7ec8ff';
+      c.lineWidth = 1.5;
+      c.strokeRect(44, 44, 912, 612);
+
+      const drawCornerOrnament = (x, y) => {
+        c.strokeStyle = '#ffffff';
+        c.lineWidth = 2;
+        c.beginPath();
+        c.arc(x, y, 12, 0, Math.PI * 2);
+        c.stroke();
+      };
+      drawCornerOrnament(44, 44);
+      drawCornerOrnament(956, 44);
+      drawCornerOrnament(44, 656);
+      drawCornerOrnament(956, 656);
+
+      c.fillStyle = '#7ec8ff';
+      c.font = 'bold 13px "Courier New", monospace';
+      c.textAlign = 'center';
+      c.fillText('CERTIFICATE OF APPRECIATION & RECOGNITION', 500, 85);
+
+      c.fillStyle = '#d9eeff';
+      c.font = '14px Georgia, serif';
+      c.fillText('— 21ST EDITION (24:11) —', 500, 110);
+
+      c.fillStyle = '#ffffff';
+      c.font = 'bold 42px Georgia, serif';
+      c.fillText('Presented to Mandar', 500, 170);
+
+      c.fillStyle = '#a6c8eb';
+      c.font = 'italic 15px Georgia, serif';
+      c.fillText('In recognition of consistent dedication, quiet integrity, and a genuinely kind heart.', 500, 205);
+
+      c.strokeStyle = 'rgba(126, 200, 255, 0.4)';
+      c.lineWidth = 1;
+      c.beginPath();
+      c.moveTo(200, 230);
+      c.lineTo(800, 230);
+      c.stroke();
+
+      c.fillStyle = '#f0f7ff';
+      c.font = '15px "Courier New", monospace';
+      
+      const lines = [
+        "This official record certifies that your hard work, humility, and steadfast",
+        "character remain deeply appreciated. You bring positive impact to those",
+        "around you, both in your ordinary moments and your greatest milestones.",
+        "",
+        "“Of all the unexpected things life brings, I'm glad our paths crossed.",
+        "Stay you. That's already something beautiful.”"
+      ];
+
+      let startY = 275;
+      lines.forEach((line) => {
+        c.fillText(line, 500, startY);
+        startY += 28;
+      });
+
+      c.fillStyle = '#ffffff';
+      c.beginPath();
+      c.arc(170, 560, 38, 0, Math.PI * 2);
+      c.fill();
+      c.strokeStyle = '#04132c';
+      c.lineWidth = 2;
+      c.beginPath();
+      c.arc(170, 560, 32, 0, Math.PI * 2);
+      c.stroke();
+
+      c.fillStyle = '#04132c';
+      c.font = 'bold 13px "Courier New", monospace';
+      c.fillText('21ST', 170, 553);
+      c.font = '9px "Courier New", monospace';
+      c.fillText('EDITION', 170, 568);
+
+      c.strokeStyle = '#7ec8ff';
+      c.lineWidth = 1;
+      c.beginPath();
+      c.moveTo(630, 575);
+      c.lineTo(850, 575);
+      c.stroke();
+
+      c.fillStyle = '#ffffff';
+      c.font = 'italic 22px Georgia, serif';
+      c.fillText('With warmth, always. ♡', 740, 550);
+
+      c.fillStyle = '#a6c8eb';
+      c.font = '12px "Courier New", monospace';
+      c.fillText('Authorized Keepsake Dispatch', 740, 595);
+
+      const link = document.createElement('a');
+      link.download = 'Mandar-21st-Cobalt-Keepsake.png';
+      link.href = certCanvas.toDataURL('image/png');
+      link.click();
+    });
+
+    /* =========================================
+       LIVE AMBIENT STARFIELD, SHOOTING STARS, TOUCH TRAIL & CONFETTI
+    ========================================= */
+    const ambCanvas = document.getElementById('ambient-canvas');
+    const ambCtx = ambCanvas.getContext('2d');
+    const canvas = document.getElementById('confetti-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let liveStars = [];
+    let shootingStars = [];
+    let pointerTrails = [];
+
+    function resizeCanvases() {
+      ambCanvas.width = window.innerWidth;
+      ambCanvas.height = window.innerHeight;
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      initLiveStars();
+    }
+
+    function initLiveStars() {
+      liveStars = [];
+      const count = Math.min(85, Math.floor((ambCanvas.width * ambCanvas.height) / 12000));
+      for (let i = 0; i < count; i++) {
+        liveStars.push({
+          x: Math.random() * ambCanvas.width,
+          y: Math.random() * ambCanvas.height,
+          r: 0.7 + Math.random() * 1.9,
+          alpha: Math.random(),
+          dAlpha: 0.008 + Math.random() * 0.015,
+          vy: -0.14 - Math.random() * 0.25
+        });
+      }
+    }
+
+    // Spawn occasional shooting star
+    setInterval(() => {
+      if (shootingStars.length < 2) {
+        shootingStars.push({
+          x: Math.random() * ambCanvas.width * 0.85,
+          y: Math.random() * ambCanvas.height * 0.35,
+          len: 65 + Math.random() * 55,
+          speed: 8 + Math.random() * 5,
+          alpha: 1
+        });
+      }
+    }, 3400);
+
+    // Interactive Stardust Cursor / Touch Trail
+    function addPointerTrail(x, y) {
+      pointerTrails.push({
+        x: x + (Math.random() - 0.5) * 8,
+        y: y + (Math.random() - 0.5) * 8,
+        r: 1.5 + Math.random() * 2.2,
+        alpha: 0.9,
+        vy: -0.4 - Math.random() * 0.5
+      });
+    }
+
+    window.addEventListener('mousemove', (e) => {
+      if (Math.random() > 0.45) addPointerTrail(e.clientX, e.clientY);
+    });
+
+    window.addEventListener('touchmove', (e) => {
+      if (e.touches[0] && Math.random() > 0.35) {
+        addPointerTrail(e.touches[0].clientX, e.touches[0].clientY);
+      }
+    }, { passive: true });
+
+    function animateLiveStars() {
+      ambCtx.clearRect(0, 0, ambCanvas.width, ambCanvas.height);
+
+      // Twinkling background stars
+      liveStars.forEach(s => {
+        s.alpha += s.dAlpha;
+        if (s.alpha >= 1 || s.alpha <= 0.15) s.dAlpha = -s.dAlpha;
+        s.y += s.vy;
+        if (s.y < -5) s.y = ambCanvas.height + 5;
+
+        ambCtx.beginPath();
+        ambCtx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ambCtx.fillStyle = `rgba(217, 238, 255, ${s.alpha})`;
+        ambCtx.fill();
+      });
+
+      // Shooting stars
+      shootingStars.forEach((st, i) => {
+        st.x += st.speed;
+        st.y += st.speed * 0.55;
+        st.alpha -= 0.018;
+
+        const grad = ambCtx.createLinearGradient(st.x, st.y, st.x - st.len, st.y - st.len * 0.55);
+        grad.addColorStop(0, `rgba(255, 255, 255, ${Math.max(0, st.alpha)})`);
+        grad.addColorStop(1, 'rgba(126, 200, 255, 0)');
+
+        ambCtx.strokeStyle = grad;
+        ambCtx.lineWidth = 1.8;
+        ambCtx.beginPath();
+        ambCtx.moveTo(st.x, st.y);
+        ambCtx.lineTo(st.x - st.len, st.y - st.len * 0.55);
+        ambCtx.stroke();
+
+        if (st.alpha <= 0) shootingStars.splice(i, 1);
+      });
+
+      // Pointer stardust trail
+      pointerTrails.forEach((pt, i) => {
+        pt.y += pt.vy;
+        pt.alpha -= 0.025;
+        ambCtx.beginPath();
+        ambCtx.arc(pt.x, pt.y, pt.r, 0, Math.PI * 2);
+        ambCtx.fillStyle = `rgba(244, 184, 200, ${Math.max(0, pt.alpha)})`;
+        ambCtx.fill();
+        if (pt.alpha <= 0) pointerTrails.splice(i, 1);
+      });
+
+      requestAnimationFrame(animateLiveStars);
+    }
+
+    window.addEventListener('resize', resizeCanvases);
+    resizeCanvases();
+    animateLiveStars();
+
+    const cobaltPalette = ['#ffffff', '#7ec8ff', '#bfe2ff', '#f4b8c8', '#a6c8eb'];
+
+    function launchCobaltConfetti() {
+      for (let i = 0; i < 95; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: -10 - Math.random() * 160,
+          w: 5 + Math.random() * 5,
+          h: 6 + Math.random() * 6,
+          color: cobaltPalette[Math.floor(Math.random() * cobaltPalette.length)],
+          speedY: 1.6 + Math.random() * 2.4,
+          speedX: -1 + Math.random() * 2,
+          rot: Math.random() * 360,
+          rotSpeed: -3 + Math.random() * 6
+        });
+      }
+      animateConfetti();
+    }
+
+    function animateConfetti() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach((p, idx) => {
+        p.y += p.speedY;
+        p.x += p.speedX;
+        p.rot += p.rotSpeed;
+
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate((p.rot * Math.PI) / 180);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+        ctx.restore();
+
+        if (p.y > canvas.height + 20) {
+          particles.splice(idx, 1);
+        }
+      });
+
+      if (particles.length > 0) {
+        requestAnimationFrame(animateConfetti);
+      }
+    }
+  </script>
+</body>
+</html>
